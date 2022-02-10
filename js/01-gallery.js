@@ -14,15 +14,19 @@ const galleryList = galleryItems
     <img
       class="gallery__image"
       src="${item.preview}"
-      data-source="${item.preview}"
+      data-source="${item.original}"
       alt="${item.description}"
     />
-  
+ 
 </div>`,
   )
   .join('');
 // console.log(galleryList);
-// <a class="gallery__link" href="${item.preview}"></a>
+// <a class="gallery__link" href="${item.original}">
+// rel = 'noopener noreferrer';
+// target = '_self';
+// target = '_parent';
+//</a >
 
 galleryEl.innerHTML = galleryList;
 
@@ -34,6 +38,7 @@ function onPreviewClick(evt) {
   }
   console.log(evt.target.nodeName);
   console.log(evt.target.dataset.source);
+  evt.stopPropagation();
 }
 
 // 4
