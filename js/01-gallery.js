@@ -3,9 +3,7 @@ import { galleryItems } from './gallery-items.js';
 
 console.log(galleryItems);
 
-// 1
 const galleryEl = document.querySelector('.gallery');
-console.log(galleryEl);
 
 const galleryList = galleryItems
   .map(
@@ -22,29 +20,32 @@ const galleryList = galleryItems
 </div>`,
   )
   .join('');
-// console.log(galleryList);
-// <a class="gallery__link" href="${item.original}">
-// rel = 'noopener noreferrer'; target = '_self'; target = '_parent';
-// onclick="return false"
-//</a >
 
 galleryEl.innerHTML = galleryList;
 
-// 2
 galleryEl.addEventListener('click', onPreviewClick);
 function onPreviewClick(evt) {
   if (!evt.target.classList.contains('gallery__image')) {
     return;
   }
-  console.log(evt.target.nodeName);
-  console.log(evt.target.dataset.source);
-  evt.stopPropagation();
+
+  createLightbox(evt);
 }
 
-// 4
-
-const instance2 = basicLightbox.create(`
-    <img src="https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677__340.jpg">
+function createLightbox(evt) {
+  const instance = basicLightbox.create(`
+  <img src="${evt.target.dataset.source}">
 `);
+  instance.show();
 
-instance2.show();
+  galleryEl.addEventListener('keydown', onEscClick);
+  function onEscClick(evt) {
+    if (!(evt.code === 'Escape')) {
+      return;
+    }
+    if (evt.code === 'Escape') {
+      instance.close();
+      galleryEl.removeEventListener('keydown', onEscClick);
+    }
+  }
+}
